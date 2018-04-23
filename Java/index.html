@@ -141,9 +141,31 @@
 <p><strong>2. public, private, protected</strong></p>
 <p><img alt="ScreenShot" src="../img/access.png" /></p>
 <p><strong>3. String Builder vs String Buffer</strong></p>
+<p>当对字符串进行修改的时候，需要使用 StringBuffer 和 StringBuilder 类。
+和 String 类不同的是，StringBuffer 和 StringBuilder 类的对象能够被多次的修改，并且不产生新的未使用对象。
+StringBuilder 和 StringBuffer 之间的最大不同在于 StringBuilder 的方法不是线程安全的（不能同步访问）。
+由于 StringBuilder 相较于 StringBuffer 有速度优势，所以多数情况下建议使用 StringBuilder 类。然而在应用程序要求线程安全的情况下，则必须使用 StringBuffer 类。</p>
 <p><strong>4. ArrayList vs LinkedList</strong></p>
+<ol>
+<li>ArrayList是实现了基于动态数组的数据结构，LinkedList基于链表的数据结构。</li>
+<li>对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。</li>
+<li>对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。</li>
+</ol>
+<p>ArrayList内部是使用可増长数组实现的，所以是用get和set方法是花费常数时间的，但是如果插入元素和删除元素，除非插入和删除的位置都在表末尾，否则代码开销会很大，因为里面需要数组的移动。
+LinkedList是使用双链表实现的，所以get会非常消耗资源，除非位置离头部很近。但是插入和删除元素花费常数时间</p>
 <p><strong>5. HashMap vs HashTable</strong></p>
-<p><strong>6. HashSet vs HastMap</strong></p></div>
+<ol>
+<li>两者最主要的区别在于Hashtable是线程安全，而HashMap则非线程安全。Hashtable的实现方法里面都添加了synchronized关键字来确保线程同步，因此相对而言HashMap性能会高一些，我们平时使用时若无特殊需求建议使用HashMap，在多线程环境下若使用HashMap需要使用Collections.synchronizedMap()方法来获取一个线程安全的集合（Collections.synchronizedMap()实现原理是Collections定义了一个SynchronizedMap的内部类，这个类实现了Map接口，在调用方法时使用synchronized来保证线程同步,当然了实际上操作的还是我们传入的HashMap实例，简单的说就是Collections.synchronizedMap()方法帮我们在操作HashMap时自动添加了synchronized来实现线程同步，类似的其它Collections.synchronizedXX方法也是类似原理。</li>
+<li>HashMap可以使用null作为key，不过建议还是尽量避免这样使用。HashMap以null作为key时，总是存储在table数组的第一个节点上。而Hashtable则不允许null作为key。</li>
+<li>HashMap继承了AbstractMap，HashTable继承Dictionary抽象类，两者均实现Map接口。</li>
+<li>HashMap的初始容量为16，Hashtable初始容量为11，两者的填充因子默认都是0.75。</li>
+<li>HashMap扩容时是当前容量翻倍即:capacity<em>2，Hashtable扩容时是容量翻倍+1即:capacity</em>2+1。</li>
+<li>HashMap和Hashtable的底层实现都是数组+链表结构(if size &gt; 8 -&gt;红黑树)实现。</li>
+<li>两者计算hash的方法不同：</li>
+<li>Hashtable计算hash是直接使用key的hashcode对table数组的长度直接进行取模：</li>
+</ol>
+<p><strong>6. HashSet vs HastMap</strong></p>
+<p><img alt="ScreenShot" src="../img/hmapvshset.png" /></p></div>
         
     </div>
 
